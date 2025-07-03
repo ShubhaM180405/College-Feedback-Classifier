@@ -72,8 +72,24 @@ if st.button("🔍 Classify"):
 
         labels = ["Academics", "Facilities", "Administration"]
         predicted_labels = [labels[i] for i in range(len(prediction)) if prediction[i] == 1]
+        
 
         sentiment = get_sentiment(feedback)
+        # Keyword-based soft boost for categories
+        feedback_lower = feedback.lower()
+        
+        # Define keyword triggers
+        category_keywords = {
+            "Academics": ["math", "mathematics", "science", "subjects", "concept", "curriculum", "teaching", "learning", "syllabus", "professor", "lecture", "exam", "assignment"],
+            "Facilities": ["library", "gym", "wifi", "bathroom", "elevator", "hostel", "ac", "equipment", "room", "building", "printer", "cleaning", "laundry", "sports"],
+            "Administration": ["registration", "admission", "fees", "complaint", "delay", "office", "staff", "admin", "dean", "finance", "portal", "system", "response"]
+        }
+        
+        # Soft add categories if matching keywords are found
+        for category, keywords in category_keywords.items():
+            if any(word in feedback_lower for word in keywords):
+                if category not in predicted_labels:
+                    predicted_labels.append(category)
 
         st.subheader("📂 Predicted Categories:")
         if predicted_labels:
