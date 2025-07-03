@@ -14,12 +14,17 @@ model = joblib.load("naive_bayes_model.pkl")  # ✅ your filename
 vectorizer = pickle.load(open("vectorizer.pkl", "rb"))
 
 # Preprocessing
+import re
+from nltk.stem import WordNetLemmatizer
+
 lemmatizer = WordNetLemmatizer()
 
 def preprocess_text(text):
-    tokens = word_tokenize(text.lower())
-    lemmatized = [lemmatizer.lemmatize(token) for token in tokens if token.isalpha()]
+    # Tokenize using regex instead of nltk's word_tokenize
+    tokens = re.findall(r'\b[a-zA-Z]+\b', text.lower())  # Only letters
+    lemmatized = [lemmatizer.lemmatize(token) for token in tokens]
     return " ".join(lemmatized)
+
 
 # Suggest improvements based on predictions
 def get_suggestions(categories, sentiment):
