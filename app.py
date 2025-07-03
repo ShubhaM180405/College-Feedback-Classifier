@@ -1,32 +1,27 @@
+# College Feedback Classifier - Web App using Streamlit with VADER Sentiment
+
 import streamlit as st
 import joblib
 import pickle
-import nltk
-from nltk.tokenize import word_tokenize
-from nltk.stem import WordNetLemmatizer
-
-# Download required NLTK models
-nltk.download('punkt')
-nltk.download('wordnet')
-
-# Load model and vectorizer
-model = joblib.load("naive_bayes_model.pkl")  # ✅ your filename
-vectorizer = pickle.load(open("vectorizer.pkl", "rb"))
-
-# Preprocessing
 import re
 from nltk.stem import WordNetLemmatizer
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
+# Load model and vectorizer
+model = joblib.load("naive_bayes_model.pkl")
+vectorizer = pickle.load(open("vectorizer.pkl", "rb"))
+
+# Initialize tools
 lemmatizer = WordNetLemmatizer()
+sentiment_analyzer = SentimentIntensityAnalyzer()
 
+# Preprocessing function (no punkt required)
 def preprocess_text(text):
-    # Tokenize using regex instead of nltk's word_tokenize
-    tokens = re.findall(r'\b[a-zA-Z]+\b', text.lower())  # Only letters
+    tokens = re.findall(r'\b[a-zA-Z]+\b', text.lower())
     lemmatized = [lemmatizer.lemmatize(token) for token in tokens]
     return " ".join(lemmatized)
 
-
-# Suggest improvements based on predictions
+# Get suggestions based on category + sentiment
 def get_suggestions(categories, sentiment):
     suggestions = []
     if sentiment == "Negative":
@@ -38,9 +33,19 @@ def get_suggestions(categories, sentiment):
             suggestions.append("📘 Provide better academic support or clarity.")
     elif sentiment == "Neutral":
         suggestions.append("🙂 Could use more engagement or support.")
-    elif sentiment == "Positive":
+    elif sentiment == "Positive" and categories:
         suggestions.append("🎉 Keep up the great work!")
     return suggestions
+
+# Analyze sentiment using VADER
+def get_sentiment(text):
+    scores = sentiment_analyzer.polarity_scores(text)
+    if scores['compound'] >= 0.05:
+        return "Positive"
+    elif scores['compound'] <= -0.05:
+        return "Negative"
+    else:
+        return "Neutral"
 
 # --- Streamlit UI ---
 st.set_page_config(page_title="College Feedback Classifier")
@@ -55,43 +60,28 @@ if st.button("🔍 Classify"):
     else:
         processed = preprocess_text(feedback)
         vector = vectorizer.transform([processed])
-        prediction = model.predict(vector)[0] 
-
+        prediction = model.predict(vector)[0]
 
         # Fallback class names
-        labels = model.classes_ if hasattr(model, 'classes_') else ["Academics", "Facilities", "Administration", "Sentiment"]
-        predicted = [label for i, label in enumerate(labels) if prediction[i] == 1]
+        labels = model.classes_ if hasattr(model, 'classes_') else ["Academics", "Facilities", "Administration"]
+        predicted_labels = [label for i, label in enumerate(labels) if prediction[i] == 1]
 
-        # Extract sentiment if present
-        from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
-
-        analyzer = SentimentIntensityAnalyzer()
-        sentiment_score = analyzer.polarity_scores(feedback)['compound']
-
-        if sentiment_score >= 0.05:
-            sentiment = "Positive"
-        elif sentiment_score <= -0.05:
-            sentiment = "Negative"
-        else:
-            sentiment = "Neutral"
-
+        sentiment = get_sentiment(feedback)
 
         st.subheader("📂 Predicted Categories:")
-        labels = ["Academics", "Facilities", "Administration"]  # <-- use string labels directly
-        predicted_labels = [labels[i] for i, val in enumerate(prediction) if val == 1]
-
-        # Now this will work:
-        st.success(", ".join(predicted_labels) if predicted_labels else "None")
-
+        if predicted_labels:
+            st.success(", ".join(predicted_labels))
+        else:
+            st.warning("⚠️ Could not classify the feedback. Try rephrasing or improve training data.")
 
         st.subheader("💬 Sentiment:")
         st.info(sentiment)
 
-        suggestions = get_suggestions(predicted, sentiment)
-        if suggestions:
+        suggestions = get_suggestions(predicted_labels, sentiment)
+        if suggestions and predicted_labels:
             st.subheader("🛠 Suggested Improvements:")
             for tip in suggestions:
                 st.write("- " + tip)
 
 st.markdown("---")
-st.caption("Built with Streamlit · Multi-label NLP Classifier")
+st.caption("Built with Streamlit · Multi-label NLP Classifier with VADER")
