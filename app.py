@@ -71,7 +71,12 @@ if st.button("🔍 Classify"):
                 break
 
         st.subheader("📂 Predicted Categories:")
-        st.success(", ".join(predicted) if predicted else "None")
+        labels = ["Academics", "Facilities", "Administration"]  # <-- use string labels directly
+        predicted_labels = [labels[i] for i, val in enumerate(prediction) if val == 1]
+
+        # Now this will work:
+        st.success(", ".join(predicted_labels) if predicted_labels else "None")
+
 
         st.subheader("💬 Sentiment:")
         st.info(sentiment)
