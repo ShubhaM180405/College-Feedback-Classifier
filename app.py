@@ -10,7 +10,7 @@ nltk.download('punkt')
 nltk.download('wordnet')
 
 # Load model and vectorizer
-model = joblib.load("naive_bayes_model.joblib")  # ✅ your filename
+model = joblib.load("naive_bayes_model.pkl")  # ✅ your filename
 vectorizer = pickle.load(open("vectorizer.pkl", "rb"))
 
 # Preprocessing
