@@ -37,12 +37,20 @@ def get_suggestions(categories, sentiment):
         suggestions.append("🎉 Keep up the great work!")
     return suggestions
 
-# Analyze sentiment using VADER
+# Improved VADER + keyword-based sentiment detection
 def get_sentiment(text):
-    scores = sentiment_analyzer.polarity_scores(text)
-    if scores['compound'] >= 0.05:
+    score = sentiment_analyzer.polarity_scores(text)['compound']
+    negative_keywords = ["outdated", "old", "broken", "slow", "expensive", "unsafe", "unreliable",
+    "inadequate", "unavailable", "unhelpful", "long wait", "no response",
+    "takes too long", "inefficient", "dirty", "poor", "difficult", "confusing",
+    "crashes", "problem", "issue", "not working", "low quality", "needs improvement",
+    "insufficient", "doesn't work", "unfair", "lack", "delayed", "missing",
+    "late", "crowded", "limited", "stressful", "bad", "slow response"]
+
+    # Check score first, then override with keywords
+    if score >= 0.05:
         return "Positive"
-    elif scores['compound'] <= -0.05:
+    elif score <= -0.05 or any(word in text.lower() for word in negative_keywords):
         return "Negative"
     else:
         return "Neutral"
