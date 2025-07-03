@@ -1,10 +1,10 @@
-# College Feedback Classifier - Web App using Streamlit with VADER Sentiment
+# College Feedback Classifier - Streamlit App with VADER + Keyword Boost + Stemming
 
 import streamlit as st
 import joblib
 import pickle
 import re
-from nltk.stem import WordNetLemmatizer
+from nltk.stem import PorterStemmer
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 # Load model and vectorizer
@@ -12,42 +12,26 @@ model = joblib.load("naive_bayes_model.pkl")
 vectorizer = pickle.load(open("vectorizer.pkl", "rb"))
 
 # Initialize tools
-lemmatizer = WordNetLemmatizer()
+stemmer = PorterStemmer()
 sentiment_analyzer = SentimentIntensityAnalyzer()
 
-# Preprocessing function (no punkt required)
+# Preprocessing (using stemmer to avoid wordnet errors)
 def preprocess_text(text):
     tokens = re.findall(r'\b[a-zA-Z]+\b', text.lower())
-    lemmatized = [lemmatizer.lemmatize(token) for token in tokens]
-    return " ".join(lemmatized)
+    stemmed = [stemmer.stem(token) for token in tokens]
+    return " ".join(stemmed)
 
-# Get suggestions based on category + sentiment
-def get_suggestions(categories, sentiment):
-    suggestions = []
-    if sentiment == "Negative":
-        if "Facilities" in categories:
-            suggestions.append("🔧 Improve campus facilities and services.")
-        if "Faculty" in categories:
-            suggestions.append("👩‍🏫 Enhance teaching quality and interaction.")
-        if "Academics" in categories:
-            suggestions.append("📘 Provide better academic support or clarity.")
-    elif sentiment == "Neutral":
-        suggestions.append("🙂 Could use more engagement or support.")
-    elif sentiment == "Positive" and categories:
-        suggestions.append("🎉 Keep up the great work!")
-    return suggestions
-
-# Improved VADER + keyword-based sentiment detection
+# Sentiment detection using VADER + keyword override
 def get_sentiment(text):
     score = sentiment_analyzer.polarity_scores(text)['compound']
-    negative_keywords = ["outdated", "old", "broken", "slow", "expensive", "unsafe", "unreliable",
-    "inadequate", "unavailable", "unhelpful", "long wait", "no response",
-    "takes too long", "inefficient", "dirty", "poor", "difficult", "confusing",
-    "crashes", "problem", "issue", "not working", "low quality", "needs improvement",
-    "insufficient", "doesn't work", "unfair", "lack", "delayed", "missing",
-    "late", "crowded", "limited", "stressful", "bad", "slow response"]
-
-    # Check score first, then override with keywords
+    negative_keywords = [
+        "outdated", "old", "broken", "slow", "expensive", "unsafe", "unreliable",
+        "inadequate", "unavailable", "unhelpful", "long wait", "no response",
+        "takes too long", "inefficient", "dirty", "poor", "difficult", "confusing",
+        "crashes", "problem", "issue", "not working", "low quality", "needs improvement",
+        "insufficient", "doesn't work", "unfair", "lack", "delayed", "missing",
+        "late", "crowded", "limited", "overwhelmed", "stressful", "bad", "slow response"
+    ]
     if score >= 0.05:
         return "Positive"
     elif score <= -0.05 or any(word in text.lower() for word in negative_keywords):
@@ -55,7 +39,23 @@ def get_sentiment(text):
     else:
         return "Neutral"
 
-# --- Streamlit UI ---
+# Improvement suggestion logic
+def get_suggestions(categories, sentiment):
+    suggestions = []
+    if sentiment == "Negative":
+        if "Facilities" in categories:
+            suggestions.append("🔧 Improve campus facilities and services.")
+        if "Academics" in categories:
+            suggestions.append("📘 Provide better academic support or clarity.")
+        if "Administration" in categories:
+            suggestions.append("🗂 Improve administrative responsiveness and processes.")
+    elif sentiment == "Neutral":
+        suggestions.append("🙂 Could use more engagement or support.")
+    elif sentiment == "Positive" and categories:
+        suggestions.append("🎉 Keep up the great work!")
+    return suggestions
+
+# --- Streamlit Interface ---
 st.set_page_config(page_title="College Feedback Classifier")
 st.title("🎓 College Feedback Classifier")
 st.markdown("Enter student feedback and classify it into multiple categories and sentiment.")
@@ -70,8 +70,7 @@ if st.button("🔍 Classify"):
         vector = vectorizer.transform([processed])
         prediction = model.predict(vector)[0]
 
-        # Fallback class names
-        labels = ["Academics", "Facilities", "Administration"]  # manually define labels
+        labels = ["Academics", "Facilities", "Administration"]
         predicted_labels = [labels[i] for i in range(len(prediction)) if prediction[i] == 1]
 
         sentiment = get_sentiment(feedback)
@@ -92,4 +91,4 @@ if st.button("🔍 Classify"):
                 st.write("- " + tip)
 
 st.markdown("---")
-st.caption("Built with Streamlit · Multi-label NLP Classifier with VADER")
+st.caption("Built with Streamlit · NLP Classifier + VADER Sentiment + Keyword Boost")
