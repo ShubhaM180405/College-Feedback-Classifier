@@ -63,12 +63,18 @@ if st.button("🔍 Classify"):
         predicted = [label for i, label in enumerate(labels) if prediction[i] == 1]
 
         # Extract sentiment if present
-        sentiment = "Positive"
-        for s in ["Negative", "Neutral"]:
-            if s in predicted:
-                sentiment = s
-                predicted.remove(s)
-                break
+        from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+
+        analyzer = SentimentIntensityAnalyzer()
+        sentiment_score = analyzer.polarity_scores(feedback)['compound']
+
+        if sentiment_score >= 0.05:
+            sentiment = "Positive"
+        elif sentiment_score <= -0.05:
+            sentiment = "Negative"
+        else:
+            sentiment = "Neutral"
+
 
         st.subheader("📂 Predicted Categories:")
         labels = ["Academics", "Facilities", "Administration"]  # <-- use string labels directly
