@@ -87,7 +87,7 @@ if st.button("🔍 Classify"):
         
         # Soft add categories if matching keywords are found
         for category, keywords in category_keywords.items():
-            if any(word in feedback_lower for word in keywords):
+        if any(re.search(rf"\\b{word}\\b", feedback_lower) for word in keywords):
                 if category not in predicted_labels:
                     predicted_labels.append(category)
 
