@@ -9,7 +9,7 @@ import numpy as np
 nltk.download('punkt')
 nltk.download('wordnet')
 
-model = joblib.load("naive_byes_model.pkl")
+model = joblib.load("naive_bayes_model.joblib")
 vectorizer = pickle.load(open("vectorizer.pkl", "rb"))
 
 lemmatizer = WordNetLemmatizer()
