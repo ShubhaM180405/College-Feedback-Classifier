@@ -55,7 +55,8 @@ if st.button("🔍 Classify"):
     else:
         processed = preprocess_text(feedback)
         vector = vectorizer.transform([processed])
-        prediction = model.predict(vector).toarray()[0]
+        prediction = model.predict(vector)[0] 
+
 
         # Fallback class names
         labels = model.classes_ if hasattr(model, 'classes_') else ["Academics", "Facilities", "Administration", "Sentiment"]
