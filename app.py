@@ -30,7 +30,7 @@ def get_sentiment(text):
         "takes too long", "inefficient", "dirty", "poor", "difficult", "confusing",
         "crashes", "problem", "issue", "not working", "low quality", "needs improvement",
         "insufficient", "doesn't work", "unfair", "lack", "delayed", "missing",
-        "late", "crowded", "limited", "overwhelmed", "stressful", "bad", "slow response"
+        "late", "crowded", "limited", "overwhelmed", "stressful", "bad", "slow response", "long queues", "wait"
     ]
     if score >= 0.05:
         return "Positive"
