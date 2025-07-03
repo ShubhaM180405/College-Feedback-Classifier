@@ -63,8 +63,8 @@ if st.button("🔍 Classify"):
         prediction = model.predict(vector)[0]
 
         # Fallback class names
-        labels = model.classes_ if hasattr(model, 'classes_') else ["Academics", "Facilities", "Administration"]
-        predicted_labels = [label for i, label in enumerate(labels) if prediction[i] == 1]
+        labels = ["Academics", "Facilities", "Administration"]  # manually define labels
+        predicted_labels = [labels[i] for i in range(len(prediction)) if prediction[i] == 1]
 
         sentiment = get_sentiment(feedback)
 
