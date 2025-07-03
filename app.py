@@ -82,7 +82,8 @@ if st.button("🔍 Classify"):
         category_keywords = {
             "Academics": ["math", "mathematics", "science", "subjects", "concept", "curriculum", "teaching", "learning", "syllabus", "professor", "lecture", "exam", "assignment"],
             "Facilities": ["library", "gym", "wifi", "bathroom", "elevator", "hostel", "ac", "equipment", "room", "building", "printer", "cleaning", "laundry", "sports"],
-            "Administration": ["registration", "admission", "fees", "complaint", "delay", "office", "staff", "admin", "dean", "finance", "portal", "system", "response"]
+            "Administration": ["registration", "admission", "fees", "complaint", "delay",
+                                "office", "admin", "dean", "finance", "portal"  ]
         }
         
         # Soft add categories if matching keywords are found
