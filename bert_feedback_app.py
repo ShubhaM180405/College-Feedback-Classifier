@@ -119,7 +119,7 @@ def get_suggestions(categories, sentiment):
 
 # --- Streamlit UI ---
 st.markdown("<div class='title-text'>🕶️ College Feedback Classifier</div>", unsafe_allow_html=True)
-st.markdown("<div class='sub-title'>Cyberpunk-Style Sentiment & Category Analyzer</div>", unsafe_allow_html=True)
+st.markdown("<div class='sub-title'>Sentiment & Category Analyzer</div>", unsafe_allow_html=True)
 
 st.markdown('<div class="feedback-box">', unsafe_allow_html=True)
 feedback = st.text_area("✍️ Enter Feedback:", height=150, label_visibility="collapsed", key="feedback_area")
