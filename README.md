@@ -52,9 +52,9 @@ A machine learning-powered feedback analyzer for educational institutions...
 The syllabus is outdated and the classrooms are too hot. But the professors are really helpful.
 
 - ✅ Output:
-- 📂 Predicted Categories: Academics, Facilities
-- 💬 Overall Sentiment: Negative
-- 🧠 Sentence-level Tone:
+-- 📂 Predicted Categories: Academics, Facilities
+-- 💬 Overall Sentiment: Negative
+-- 🧠 Sentence-level Tone:
 
 - "The syllabus is outdated." → Negative (Confidence: 0.94)
 - "The classrooms are too hot." → Negative (Confidence: 0.92)
