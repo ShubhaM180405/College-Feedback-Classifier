@@ -55,10 +55,9 @@ The syllabus is outdated and the classrooms are too hot. But the professors are 
    1) 📂 Predicted Categories: Academics, Facilities
     2) 💬 Overall Sentiment: Negative
      3) 🧠 Sentence-level Tone:
-
-- "The syllabus is outdated." → Negative (Confidence: 0.94)
-- "The classrooms are too hot." → Negative (Confidence: 0.92)
-- "But the professors are really helpful." → Positive (Confidence: 0.91)
+         a) "The syllabus is outdated." → Negative (Confidence: 0.94)
+         b) "The classrooms are too hot." → Negative (Confidence: 0.92)
+         c) "But the professors are really helpful." → Positive (Confidence: 0.91)
 
 ---
 
