@@ -155,4 +155,4 @@ if st.button("🔍 Classify Feedback"):
                 st.markdown(f"<div class='result-box'>- {s}</div>", unsafe_allow_html=True)
 
 st.markdown("---")
-st.caption("BUILT BY SHUBHAM..")
+st.caption("----- BUILT BY SHUBHAM -----")
