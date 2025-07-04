@@ -11,7 +11,7 @@ A machine learning-powered feedback analyzer for educational institutions. It cl
 - 🏢 Facilities
 - 🗂 Administration
 
-✅ Models:
+### ✅ Models:
 - `naive_bayes_model.pkl` (baseline)
 - `logistic_feedback_model.pkl` (improved)
 - `bert_feedback_model.pkl` (for BERT sentiment version)
@@ -50,9 +50,9 @@ The syllabus is outdated and the classrooms are too hot. But the professors are 
    1) 📂 Predicted Categories: Academics, Facilities
     2) 💬 Overall Sentiment: Negative
      3) 🧠 Sentence-level Tone:
-         a) "The syllabus is outdated." → Negative (Confidence: 0.94)
-          b) "The classrooms are too hot." → Negative (Confidence: 0.92)
-           c) "But the professors are really helpful." → Positive (Confidence: 0.91)
+         a) "The syllabus is outdated." → Negative (Confidence: 0.94).
+         b) "The classrooms are too hot." → Negative (Confidence: 0.92).
+         c) "But the professors are really helpful." → Positive (Confidence: 0.91).
 
 ---
 
