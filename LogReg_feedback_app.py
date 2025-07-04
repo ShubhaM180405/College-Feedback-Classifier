@@ -8,8 +8,8 @@ from nltk.stem import PorterStemmer
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 # Load the upgraded logistic regression model
-model = joblib.load("logistic_feedback_model.pkl")
-vectorizer = pickle.load(open("vectorizer_LogReg.pkl", "rb"))
+model = joblib.load("LogReg_feedback_model.pkl")
+vectorizer = pickle.load(open("LogReg_vectorizer.pkl", "rb"))
 
 # Initialize tools
 stemmer = PorterStemmer()
