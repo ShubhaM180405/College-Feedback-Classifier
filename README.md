@@ -35,6 +35,14 @@ A machine learning-powered feedback analyzer for educational institutions. It cl
 
 ---
 
+# 🎓 College Feedback Classifier
+
+## 🔗 Live Demo
+Try it here 👉 [College Feedback Classifier (Streamlit App)]()
+
+A machine learning-powered feedback analyzer for educational institutions...
+
+
 ## 🚀 How to Run
 
 ### 🔧 Local (optional)
@@ -42,8 +50,3 @@ A machine learning-powered feedback analyzer for educational institutions. It cl
 pip install -r requirements.txt
 streamlit run bert_feedback_app.py
 
-## 👨‍💻 Author
-
-Developed by **Shubham Bej**
-
-> Built using Streamlit · Hugging Face BERT · scikit-learn
