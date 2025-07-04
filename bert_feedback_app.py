@@ -1,41 +1,37 @@
-# College Feedback Classifier - Streamlit App (BERT Sentiment + Logistic Regression Category + Chunking + Highlights + Confidence)
+# College Feedback Classifier - BERT Sentiment + Category + Highlights + Chunking (Streamlit Cloud Safe)
 
 import streamlit as st
 import joblib
 import pickle
 import re
-import nltk
 from nltk.stem import PorterStemmer
-from nltk.tokenize import sent_tokenize
 from transformers import pipeline
 
-nltk.download('punkt')
-
-# Load the classifier model and vectorizer
+# Load model and vectorizer
 model = joblib.load("bert_feedback_model.pkl")
 vectorizer = pickle.load(open("bert_vectorizer.pkl", "rb"))
 
-# Load the BERT sentiment pipeline
+# Load BERT sentiment pipeline
 @st.cache_resource(show_spinner=False)
 def load_bert_pipeline():
     return pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english")
 
 bert_sentiment_pipeline = load_bert_pipeline()
 
-# Initialize tools
-stemmer = PorterStemmer()
+# Safe sentence splitter (no NLTK required)
+def split_sentences(text):
+    return re.split(r'(?<=[.!?]) +', text.strip())
 
 # Preprocessing
-
+stemmer = PorterStemmer()
 def preprocess_text(text):
     tokens = re.findall(r'\b[a-zA-Z]+\b', text.lower())
     stemmed = [stemmer.stem(token) for token in tokens]
     return " ".join(stemmed)
 
-# Sentiment classification with score per sentence
-
+# BERT chunk-wise sentiment with confidence
 def classify_sentiment_chunkwise(text):
-    sentences = sent_tokenize(text)
+    sentences = split_sentences(text)
     sentiments = {"Positive": 0, "Negative": 0, "Neutral": 0}
     sentence_scores = []
     for sent in sentences:
@@ -53,8 +49,7 @@ def classify_sentiment_chunkwise(text):
     overall_sentiment = max(sentiments, key=sentiments.get)
     return overall_sentiment, sentence_scores
 
-# Suggestions based on sentiment + category
-
+# Suggestions
 def get_suggestions(categories, sentiment):
     suggestions = []
     if sentiment == "Negative":
@@ -70,10 +65,10 @@ def get_suggestions(categories, sentiment):
         suggestions.append("🎉 Keep up the great work!")
     return suggestions
 
-# Streamlit UI
+# --- Streamlit App ---
 st.set_page_config(page_title="BERT Feedback Classifier")
 st.title("🤖 College Feedback Classifier (BERT + Highlights + Confidence)")
-st.markdown("Analyze long student feedback using BERT for sentiment and Logistic Regression for categories.")
+st.markdown("Analyze short or long feedback using BERT sentiment and category classifier.")
 
 feedback = st.text_area("✍️ Enter your feedback:", height=150)
 
@@ -81,8 +76,7 @@ if st.button("🔍 Classify"):
     if feedback.strip() == "":
         st.warning("Please enter some feedback.")
     else:
-        # Chunk-wise category prediction
-        sentences = sent_tokenize(feedback)
+        sentences = split_sentences(feedback)
         labels = ["Academics", "Facilities", "Administration"]
         predicted_labels = set()
         for sent in sentences:
@@ -95,7 +89,7 @@ if st.button("🔍 Classify"):
 
         predicted_labels = list(predicted_labels)
 
-        # Keyword-based category boost
+        # Keyword-based boost
         feedback_lower = feedback.lower()
         category_keywords = {
             "Academics": ["subject", "subjects", "math", "mathematics", "science", "concept", "curriculum", "syllabus", "lecture", "teaching", "learning", "professor", "exam", "assignment", "notes", "coursework", "faculty", "class", "classes", "department"],
@@ -103,7 +97,7 @@ if st.button("🔍 Classify"):
             "Administration": ["registration", "admission", "fees", "complaint", "office", "admin", "dean", "finance", "form", "schedule", "delay", "exam form", "staff", "management", "rules", "documents", "notice"]
         }
         for category, keywords in category_keywords.items():
-            if any(re.search(rf"\\b{word}\\b", feedback_lower) for word in keywords):
+            if any(re.search(rf"\b{word}\b", feedback_lower) for word in keywords):
                 if category not in predicted_labels:
                     predicted_labels.append(category)
 
@@ -113,7 +107,7 @@ if st.button("🔍 Classify"):
         if predicted_labels:
             st.success(", ".join(predicted_labels))
         else:
-            st.warning("Could not determine categories.")
+            st.warning("⚠️ Could not determine categories.")
 
         st.subheader("💬 Overall Sentiment:")
         st.info(sentiment)
@@ -129,4 +123,4 @@ if st.button("🔍 Classify"):
                 st.write("- " + s)
 
 st.markdown("---")
-st.caption("Built with Hugging Face BERT + Logistic Regression + Highlights + Confidence")
+st.caption("Built with Hugging Face BERT + Logistic Regression + Highlights")
