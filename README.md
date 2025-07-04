@@ -41,3 +41,9 @@ A machine learning-powered feedback analyzer for educational institutions. It cl
 ```bash
 pip install -r requirements.txt
 streamlit run bert_feedback_app.py
+
+## 👨‍💻 Author
+
+Developed by **Shubham Bej**
+
+> Built using Streamlit · Hugging Face BERT · scikit-learn
