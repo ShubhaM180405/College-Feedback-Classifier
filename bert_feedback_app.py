@@ -123,4 +123,4 @@ if st.button("🔍 Classify"):
                 st.write("- " + s)
 
 st.markdown("---")
-st.caption("Built with Hugging Face BERT + Logistic Regression + Highlights. By SHUBHAM. ")
+st.caption("Built by SHUBHAM. ")
