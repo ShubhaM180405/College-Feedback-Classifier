@@ -10,48 +10,48 @@ from transformers import pipeline
 st.markdown("""
     <style>
     body {
-        background-color: #0d0d0d;
+        background-color: #000000;
     }
     .stApp {
         font-family: 'Orbitron', sans-serif;
-        color: #00fff7;
+        color: #39ff14; /* Neon Green */
     }
     .title-text {
         text-align: center;
         font-size: 36px;
         font-weight: bold;
-        color: #ff00ff;
+        color: #ff00ff; /* Magenta */
         margin-top: 20px;
     }
     .sub-title {
         text-align: center;
         font-size: 18px;
-        color: #00fff7;
+        color: #39ff14;
         margin-bottom: 30px;
     }
     .feedback-box textarea {
-        background-color: #1a1a1a;
-        color: #00fff7;
-        border: 2px solid #ff00ff;
+        background-color: #111111;
+        color: #39ff14;
+        border: 2px solid #00ffff; /* Cyan */
         border-radius: 10px;
     }
     .result-box {
-        background-color: #1a1a1a;
-        border: 2px solid #00fff7;
+        background-color: #0a0a0a;
+        border: 2px solid #39ff14;
         border-radius: 10px;
         padding: 15px;
         margin-top: 15px;
-        color: #00fff7;
+        color: #39ff14;
         font-size: 16px;
         font-weight: 500;
-        box-shadow: 0 0 10px #ff00ff;
+        box-shadow: 0 0 12px #00ffff;
     }
     h5 {
         color: #ff00ff;
         font-weight: bold;
     }
     em {
-        color: #ffcc00;
+        color: #00ffff;
         font-style: italic;
     }
     strong {
@@ -63,7 +63,6 @@ st.markdown("""
     }
     </style>
 """, unsafe_allow_html=True)
-
 # Load model and vectorizer
 model = joblib.load("bert_feedback_model.pkl")
 vectorizer = pickle.load(open("bert_vectorizer.pkl", "rb"))
