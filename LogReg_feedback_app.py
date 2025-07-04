@@ -104,4 +104,4 @@ if st.button("🔍 Classify"):
                 st.write("- " + tip)
 
 st.markdown("---")
-st.caption("Built with Streamlit by SHUBHAM· Logistic Regression + VADER + Keyword Boost")
+st.caption("Built by SHUBHAM·")
