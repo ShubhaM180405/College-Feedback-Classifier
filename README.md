@@ -62,4 +62,15 @@ The syllabus is outdated and the classrooms are too hot. But the professors are 
 ```bash
 pip install -r requirements.txt
 streamlit run bert_feedback_app.py
+```
+
+---
+
+## 👨‍💻 Author
+
+**SHUBHAM BEJ**  
+🚀 Computer Science Undergraduate  
+📍 India  
+📫 [Email Me](mailto:sangram.23bce9368@vitapstudent.ac.in)  
+🌐 [GitHub Profile](https://github.com/ShubhaM180405)
 
