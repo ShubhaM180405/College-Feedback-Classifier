@@ -9,6 +9,8 @@ from transformers import pipeline
 
 st.markdown("""
     <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
     body {
         background-color: #000000;
     }
@@ -29,11 +31,19 @@ st.markdown("""
         color: #39ff14;
         margin-bottom: 30px;
     }
-    .feedback-box textarea {
-        background-color: #111111;
-        color: #39ff14;
-        border: 2px solid #00ffff; /* Cyan */
-        border-radius: 10px;
+    textarea {
+        background-color: #111111 !important;
+        color: #39ff14 !important;
+        border: 2px solid #00ffff !important;
+        border-radius: 10px !important;
+        caret-color: #ff00ff !important;
+        font-family: 'Orbitron', monospace !important;
+        animation: glow-cursor 1s infinite;
+    }
+    @keyframes glow-cursor {
+        0% { box-shadow: 0 0 5px #ff00ff; }
+        50% { box-shadow: 0 0 10px #ff00ff; }
+        100% { box-shadow: 0 0 5px #ff00ff; }
     }
     .result-box {
         background-color: #0a0a0a;
