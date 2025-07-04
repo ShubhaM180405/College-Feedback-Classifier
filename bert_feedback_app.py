@@ -8,8 +8,8 @@ from nltk.stem import PorterStemmer
 from transformers import pipeline
 
 # Load the classifier model and vectorizer
-model = joblib.load("logistic_feedback_model.pkl")
-vectorizer = pickle.load(open("vectorizer.pkl", "rb"))
+model = joblib.load("bert_feedback_model.pkl")
+vectorizer = pickle.load(open("bert_vectorizer.pkl", "rb"))
 
 # Load the BERT sentiment pipeline
 @st.cache_resource(show_spinner=False)
@@ -79,9 +79,9 @@ if st.button("🔍 Classify"):
         # Keyword-based category boost
         feedback_lower = feedback.lower()
         category_keywords = {
-            "Academics": ["subject", "subjects", "math", "science", "concept", "syllabus", "lecture"],
-            "Facilities": ["library", "gym", "wifi", "room", "equipment"],
-            "Administration": ["registration", "admission", "fees", "complaint", "office"]
+            "Academics": ["subject", "subjects", "math", "mathematics", "science", "concept", "curriculum", "syllabus", "lecture", "teaching", "learning", "professor", "exam", "assignment", "notes", "coursework", "faculty", "class", "classes", "department"],
+            "Facilities": ["library", "gym", "wifi", "room", "equipment", "bathroom", "hostel", "canteen", "classroom", "projector", "computer lab", "infrastructure", "printer", "cleaning", "maintenance", "hall", "building", "air conditioning", "ac", "labs"],
+            "Administration": ["registration", "admission", "fees", "complaint", "office", "admin", "dean", "finance", "form", "schedule", "delay", "exam form", "staff", "management", "rules", "documents", "notice"]
         }
         for category, keywords in category_keywords.items():
             if any(re.search(rf"\\b{word}\\b", feedback_lower) for word in keywords):
