@@ -58,7 +58,7 @@ def get_suggestions(categories, sentiment):
 
 # --- Streamlit App Interface ---
 st.set_page_config(page_title="College Feedback Classifier")
-st.title("🎓 College Feedback Classifier (Logistic Model)")
+st.title("🎓 College Feedback Classifier")
 st.markdown("Enter student feedback and classify it into multiple categories and sentiment.")
 
 feedback = st.text_area("✍️ Enter your feedback here:", height=150)
@@ -104,4 +104,4 @@ if st.button("🔍 Classify"):
                 st.write("- " + tip)
 
 st.markdown("---")
-st.caption("Built with Streamlit · Logistic Regression + VADER + Keyword Boost")
+st.caption("Built with Streamlit by SHUBHAM· Logistic Regression + VADER + Keyword Boost")
