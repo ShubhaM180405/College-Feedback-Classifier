@@ -1,4 +1,4 @@
-# College Feedback Classifier - Streamlit App (Styled BERT Version)
+# College Feedback Classifier
 
 import streamlit as st
 import joblib
@@ -7,56 +7,58 @@ import re
 from nltk.stem import PorterStemmer
 from transformers import pipeline
 
-# --- Custom Styling ---
 st.markdown("""
     <style>
     body {
-        background: linear-gradient(to bottom right, #f2f8ff, #d0eaff);
+        background-color: #0d0d0d;
     }
     .stApp {
-        font-family: 'Segoe UI', sans-serif;
+        font-family: 'Orbitron', sans-serif;
+        color: #00fff7;
     }
     .title-text {
         text-align: center;
-        font-size: 32px;
+        font-size: 36px;
         font-weight: bold;
-        color: #154360;
+        color: #ff00ff;
+        margin-top: 20px;
     }
     .sub-title {
         text-align: center;
         font-size: 18px;
-        color: #3d5a80;
-        margin-bottom: 20px;
+        color: #00fff7;
+        margin-bottom: 30px;
     }
     .feedback-box textarea {
-        background-color: #fdfefe;
-        border-radius: 8px;
-        padding: 10px;
-        border: 1px solid #ccc;
+        background-color: #1a1a1a;
+        color: #00fff7;
+        border: 2px solid #ff00ff;
+        border-radius: 10px;
     }
     .result-box {
-        background-color: #ffffff;
-        border-radius: 12px;
+        background-color: #1a1a1a;
+        border: 2px solid #00fff7;
+        border-radius: 10px;
         padding: 15px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        margin-bottom: 10px;
-        color: #1a1a1a;
+        margin-top: 15px;
+        color: #00fff7;
         font-size: 16px;
         font-weight: 500;
+        box-shadow: 0 0 10px #ff00ff;
     }
     h5 {
-        color: #1a5276;
-        font-weight: 600;
+        color: #ff00ff;
+        font-weight: bold;
     }
     em {
-        color: #1c2833;
+        color: #ffcc00;
         font-style: italic;
     }
     strong {
-        color: #145a32;
+        color: #00ff99;
     }
     span {
-        color: #2c3e50;
+        color: #ffcc00;
         font-weight: 600;
     }
     </style>
@@ -72,7 +74,7 @@ def load_bert_pipeline():
 
 bert_sentiment_pipeline = load_bert_pipeline()
 
-# Split sentences (regex, not nltk)
+# Sentence splitting
 def split_sentences(text):
     return re.split(r'(?<=[.!?]) +', text.strip())
 
@@ -105,24 +107,24 @@ def get_suggestions(categories, sentiment):
     suggestions = []
     if sentiment == "Negative":
         if "Facilities" in categories:
-            suggestions.append("🔧 Improve campus facilities and services.")
+            suggestions.append("⚠️ Upgrade gym, labs, or classroom facilities.")
         if "Academics" in categories:
-            suggestions.append("📘 Provide better academic support or clarity.")
+            suggestions.append("📚 Improve curriculum or teaching methods.")
         if "Administration" in categories:
-            suggestions.append("🗂 Improve administrative responsiveness and processes.")
+            suggestions.append("🛠 Streamline administrative services.")
     elif sentiment == "Neutral":
-        suggestions.append("🙂 Could use more engagement or support.")
+        suggestions.append("🤔 Could improve engagement or clarity.")
     elif sentiment == "Positive" and categories:
         suggestions.append("🎉 Keep up the great work!")
     return suggestions
 
 # --- Streamlit UI ---
-st.markdown("<div class='title-text'>📚 College Feedback Classifier</div>", unsafe_allow_html=True)
-st.markdown("<div class='sub-title'>Analyze sentiment & categories from student feedback using AI</div>", unsafe_allow_html=True)
+st.markdown("<div class='title-text'>🕶️ College Feedback Classifier</div>", unsafe_allow_html=True)
+st.markdown("<div class='sub-title'>Cyberpunk-Style Sentiment & Category Analyzer</div>", unsafe_allow_html=True)
 
-feedback = st.text_area("✍️ Enter Feedback:", height=150, help="Write your comment about academics, facilities, or administration.")
+feedback = st.text_area("✍️ Enter Feedback:", height=150, help="Write feedback about academics, facilities, or admin.", key="feedback_area")
 
-if st.button("🔍 Classify Feedback"):
+if st.button("🚀 Classify Feedback"):
     if feedback.strip() == "":
         st.warning("Please enter some feedback.")
     else:
@@ -141,9 +143,9 @@ if st.button("🔍 Classify Feedback"):
 
         feedback_lower = feedback.lower()
         category_keywords = {
-            "Academics": ["subject", "subjects", "math", "mathematics", "science", "concept", "curriculum", "syllabus", "lecture", "teaching", "learning", "professor", "exam", "assignment", "notes", "coursework", "faculty", "class", "classes", "department"],
-            "Facilities": ["library", "gym", "wifi", "room", "equipment", "bathroom", "hostel", "canteen", "classroom", "projector", "computer lab", "infrastructure", "printer", "cleaning", "maintenance", "hall", "building", "air conditioning", "ac", "labs"],
-            "Administration": ["registration", "admission", "fees", "complaint", "office", "admin", "dean", "finance", "form", "schedule", "delay", "exam form", "staff", "management", "rules", "documents", "notice"]
+            "Academics": ["subject", "math", "science", "concept", "curriculum", "syllabus", "lecture", "teaching", "learning", "professor", "exam", "assignment", "notes", "faculty", "class"],
+            "Facilities": ["library", "gym", "wifi", "equipment", "bathroom", "hostel", "canteen", "projector", "labs"],
+            "Administration": ["registration", "admission", "fees", "complaint", "admin", "dean", "finance", "schedule", "management"]
         }
         for category, keywords in category_keywords.items():
             if any(re.search(rf"\b{word}\b", feedback_lower) for word in keywords):
@@ -152,15 +154,15 @@ if st.button("🔍 Classify Feedback"):
 
         sentiment, sentence_scores = classify_sentiment_chunkwise(feedback)
 
-        st.markdown("""<div class='result-box'>
+        st.markdown(f"""<div class='result-box'>
         <h5>📂 Predicted Categories</h5>
-        <p><strong>{}</strong></p>
-        </div>""".format(", ".join(predicted_labels) if predicted_labels else "None"), unsafe_allow_html=True)
+        <p><strong>{', '.join(predicted_labels) if predicted_labels else 'None'}</strong></p>
+        </div>""", unsafe_allow_html=True)
 
-        st.markdown("""<div class='result-box'>
+        st.markdown(f"""<div class='result-box'>
         <h5>💬 Overall Sentiment</h5>
-        <p><strong>{}</strong></p>
-        </div>""".format(sentiment), unsafe_allow_html=True)
+        <p><strong>{sentiment}</strong></p>
+        </div>""", unsafe_allow_html=True)
 
         st.markdown("<h5>🧠 Sentence-wise Sentiment</h5>", unsafe_allow_html=True)
         for sent, sent_type, score in sentence_scores:
@@ -168,7 +170,7 @@ if st.button("🔍 Classify Feedback"):
 
         suggestions = get_suggestions(predicted_labels, sentiment)
         if suggestions:
-            st.markdown("<h5>🛠 Suggested Improvements</h5>", unsafe_allow_html=True)
+            st.markdown("<h5>⚙️ Suggested Improvements</h5>", unsafe_allow_html=True)
             for s in suggestions:
                 st.markdown(f"<div class='result-box'>- {s}</div>", unsafe_allow_html=True)
 
