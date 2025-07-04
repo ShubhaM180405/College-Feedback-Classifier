@@ -40,6 +40,24 @@ st.markdown("""
         padding: 15px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         margin-bottom: 10px;
+        color: #1a1a1a;
+        font-size: 16px;
+        font-weight: 500;
+    }
+    h5 {
+        color: #1a5276;
+        font-weight: 600;
+    }
+    em {
+        color: #1c2833;
+        font-style: italic;
+    }
+    strong {
+        color: #145a32;
+    }
+    span {
+        color: #2c3e50;
+        font-weight: 600;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -128,7 +146,7 @@ if st.button("🔍 Classify Feedback"):
             "Administration": ["registration", "admission", "fees", "complaint", "office", "admin", "dean", "finance", "form", "schedule", "delay", "exam form", "staff", "management", "rules", "documents", "notice"]
         }
         for category, keywords in category_keywords.items():
-            if any(re.search(rf"\\b{word}\\b", feedback_lower) for word in keywords):
+            if any(re.search(rf"\b{word}\b", feedback_lower) for word in keywords):
                 if category not in predicted_labels:
                     predicted_labels.append(category)
 
@@ -146,7 +164,7 @@ if st.button("🔍 Classify Feedback"):
 
         st.markdown("<h5>🧠 Sentence-wise Sentiment</h5>", unsafe_allow_html=True)
         for sent, sent_type, score in sentence_scores:
-            st.markdown(f"<div class='result-box'><em>{sent}</em><br/><strong>{sent_type}</strong> (Confidence: {score})</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='result-box'><em>{sent}</em><br/><strong>{sent_type}</strong> (Confidence: <span>{score}</span>)</div>", unsafe_allow_html=True)
 
         suggestions = get_suggestions(predicted_labels, sentiment)
         if suggestions:
@@ -155,4 +173,4 @@ if st.button("🔍 Classify Feedback"):
                 st.markdown(f"<div class='result-box'>- {s}</div>", unsafe_allow_html=True)
 
 st.markdown("---")
-st.caption("----- BUILT BY SHUBHAM -----")
+st.caption(" ----- BUILT BY SHUBHAM ----- ")
