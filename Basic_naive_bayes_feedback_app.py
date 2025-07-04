@@ -108,4 +108,4 @@ if st.button("🔍 Classify"):
                 st.write("- " + tip)
 
 st.markdown("---")
-st.caption("Built with Streamlit · NLP Classifier + VADER Sentiment + Keyword Boost. Built by - SHUBHAM.")
+st.caption("Built by - SHUBHAM.")
