@@ -67,7 +67,7 @@ def get_suggestions(categories, sentiment):
 
 # --- Streamlit App ---
 st.set_page_config(page_title="BERT Feedback Classifier")
-st.title("🤖 College Feedback Classifier (BERT + Highlights + Confidence)")
+st.title("🤖 College Feedback Classifier")
 st.markdown("Analyze short or long feedback using BERT sentiment and category classifier.")
 
 feedback = st.text_area("✍️ Enter your feedback:", height=150)
@@ -123,4 +123,4 @@ if st.button("🔍 Classify"):
                 st.write("- " + s)
 
 st.markdown("---")
-st.caption("Built with Hugging Face BERT + Logistic Regression + Highlights")
+st.caption("Built with Hugging Face BERT + Logistic Regression + Highlights. By SHUBHAM. ")
