@@ -8,8 +8,8 @@ from nltk.stem import PorterStemmer
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 # Load model and vectorizer
-model = joblib.load("naive_bayes_model.pkl")
-vectorizer = pickle.load(open("vectorizer.pkl", "rb"))
+model = joblib.load("Basic_naive_bayes_feedback_model.pkl")
+vectorizer = pickle.load(open("Basic_naive_bayes_vectorizer.pkl", "rb"))
 
 # Initialize tools
 stemmer = PorterStemmer()
