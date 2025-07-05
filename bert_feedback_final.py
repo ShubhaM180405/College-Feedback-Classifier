@@ -1,5 +1,5 @@
 
-# College Feedback Classifier - Cyberpunk 2077 Style 🎮
+
 
 import streamlit as st
 import joblib
@@ -8,7 +8,7 @@ import re
 from nltk.stem import PorterStemmer
 from transformers import pipeline
 
-# --- Cyberpunk Theme Styling (Neon Green Focus) ---
+
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
@@ -89,7 +89,7 @@ def get_suggestions(categories, sentiment):
     suggestions = []
     if sentiment == "Negative":
         if "Facilities" in categories:
-            suggestions.append("⚠️ Upgrade gym, labs, or classroom facilities.")
+            suggestions.append("⚠️ Upgrade the existing University facilities.")
         if "Academics" in categories:
             suggestions.append("📚 Improve curriculum or teaching methods.")
         if "Administration" in categories:
@@ -101,7 +101,7 @@ def get_suggestions(categories, sentiment):
     return suggestions
 
 st.markdown("<div class='title-text'>🕶️ College Feedback Classifier</div>", unsafe_allow_html=True)
-st.markdown("<div class='sub-title'>Cyberpunk-Style Sentiment & Category Analyzer</div>", unsafe_allow_html=True)
+st.markdown("<div class='sub-title'> Sentiment & Category Analyzer</div>", unsafe_allow_html=True)
 
 feedback = st.text_area("✍️ Enter Feedback:", height=150, help="Write feedback about academics, facilities, or admin.", key="feedback_area")
 
