@@ -125,7 +125,7 @@ def get_suggestions(categories, sentiment):
     return suggestions
 
 st.markdown("<div class='title-text'>🕶️ College Feedback Classifier</div>", unsafe_allow_html=True)
-st.markdown("<div class='sub-title'>Cyberpunk-Style Sentiment & Category Analyzer</div>", unsafe_allow_html=True)
+st.markdown("<div class='sub-title'>Sentiment & Category Analyzer</div>", unsafe_allow_html=True)
 
 feedback = st.text_area("✍️ Enter Feedback:", height=150, help="Write feedback about academics, facilities, or admin.", key="feedback_area")
 
@@ -162,17 +162,15 @@ if st.button("🚀 Classify Feedback"):
 
         st.markdown("""<div class='result-box'>
 <h5>📂 Predicted Categories</h5>
-<p>""", unsafe_allow_html=True)
-        if filtered:
-            st.markdown("<ul>", unsafe_allow_html=True)
-            for cat, score in filtered.items():
-                bar = f"<div style='background:#222;border:1px solid #39ff14;border-radius:8px;overflow:hidden;margin:4px 0;'>"
-                bar += f"<div style='width:{score}%;background:#39ff14;color:#000;padding:4px 8px;font-weight:600;'>{cat}: {score}%</div></div>"
-                st.markdown(bar, unsafe_allow_html=True)
-            st.markdown("</ul>", unsafe_allow_html=True)
+""", unsafe_allow_html=True)
+for cat, score in filtered.items():
+    bar = f"<div style='background:#222;border:1px solid #39ff14;border-radius:8px;overflow:hidden;margin:4px 0;'>"
+    bar += f"<div style='width:{score}%;background:#39ff14;color:#000;padding:4px 8px;font-weight:600;'>{cat}: {score}%</div></div>"
+    st.markdown(bar, unsafe_allow_html=True)
+st.markdown("</div>", unsafe_allow_html=True)
         else:
             st.markdown("None", unsafe_allow_html=True)
-        st.markdown("</p></div>", unsafe_allow_html=True)
+        
 
         st.markdown(f"""<div class='result-box'>
 <h5>💬 Overall Sentiment</h5>
