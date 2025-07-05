@@ -37,7 +37,7 @@ A machine learning-powered feedback analyzer for educational institutions. It cl
 ## 🔗 Live Demo
 - You can Try the Basic Version here 👉 [College Feedback Classifier (Streamlit App)](https://college-feedback-classifier-naive-bayes.streamlit.app/)
 - You can Try another version (Logistic Regression version) here 👉 [College Feedback Classifier (Streamlit App)](https://college-feedback-classifier-logistic-regression.streamlit.app/)
-- You can Try the final version (BERT version) here 👉 [College Feedback Classifier (Streamlit App)](https://college-feedback-classifier-bert.streamlit.app/)
+- You can Try the final version (BERT version) here 👉 [College Feedback Classifier (Streamlit App)](https://college-feedback-classifier-berttiebreakfinal.streamlit.app/)
 
 ---
 
