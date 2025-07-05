@@ -163,13 +163,16 @@ if st.button("🚀 Classify Feedback"):
         st.markdown("""<div class='result-box'>
 <h5>📂 Predicted Categories</h5>
 """, unsafe_allow_html=True)
-for cat, score in filtered.items():
-    bar = f"<div style='background:#222;border:1px solid #39ff14;border-radius:8px;overflow:hidden;margin:4px 0;'>"
-    bar += f"<div style='width:{score}%;background:#39ff14;color:#000;padding:4px 8px;font-weight:600;'>{cat}: {score}%</div></div>"
-    st.markdown(bar, unsafe_allow_html=True)
+
+if filtered:
+    for cat, score in filtered.items():
+        bar = f"<div style='background:#222;border:1px solid #39ff14;border-radius:8px;overflow:hidden;margin:4px 0;'>"
+        bar += f"<div style='width:{score}%;background:#39ff14;color:#000;padding:4px 8px;font-weight:600;'>{cat}: {score}%</div></div>"
+        st.markdown(bar, unsafe_allow_html=True)
+else:
+    st.markdown("<p>None</p>", unsafe_allow_html=True)
+
 st.markdown("</div>", unsafe_allow_html=True)
-        else:
-            st.markdown("None", unsafe_allow_html=True)
         
 
         st.markdown(f"""<div class='result-box'>
