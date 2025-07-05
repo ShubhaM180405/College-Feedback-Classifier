@@ -156,28 +156,28 @@ if st.button("🚀 Classify Feedback"):
         for category, keywords in keyword_boost.items():
             if any(re.search(rf"\b{word}\b", feedback_lower) for word in keywords):
                 if category not in filtered:
-                    filtered[category] = 55.0  # Soft boost default
+                    filtered[category] = 55.0
 
         sentiment, sentence_scores = classify_sentiment_chunkwise(feedback)
 
         st.markdown("""<div class='result-box'>
 <h5>📂 Predicted Categories</h5>
 <p>""", unsafe_allow_html=True)
-if filtered:
-    st.markdown("<ul>", unsafe_allow_html=True)
-    for cat, score in filtered.items():
-        bar = f"<div style='background:#222;border:1px solid #39ff14;border-radius:8px;overflow:hidden;margin:4px 0;'>"
-        bar += f"<div style='width:{score}%;background:#39ff14;color:#000;padding:4px 8px;font-weight:600;'>{cat}: {score}%</div></div>"
-        st.markdown(bar, unsafe_allow_html=True)
-    st.markdown("</ul>", unsafe_allow_html=True)
-else:
-    st.markdown("None", unsafe_allow_html=True)
-st.markdown("</p></div>", unsafe_allow_html=True)
+        if filtered:
+            st.markdown("<ul>", unsafe_allow_html=True)
+            for cat, score in filtered.items():
+                bar = f"<div style='background:#222;border:1px solid #39ff14;border-radius:8px;overflow:hidden;margin:4px 0;'>"
+                bar += f"<div style='width:{score}%;background:#39ff14;color:#000;padding:4px 8px;font-weight:600;'>{cat}: {score}%</div></div>"
+                st.markdown(bar, unsafe_allow_html=True)
+            st.markdown("</ul>", unsafe_allow_html=True)
+        else:
+            st.markdown("None", unsafe_allow_html=True)
+        st.markdown("</p></div>", unsafe_allow_html=True)
 
         st.markdown(f"""<div class='result-box'>
-        <h5>💬 Overall Sentiment</h5>
-        <p><strong>{sentiment}</strong></p>
-        </div>""", unsafe_allow_html=True)
+<h5>💬 Overall Sentiment</h5>
+<p><strong>{sentiment}</strong></p>
+</div>""", unsafe_allow_html=True)
 
         st.markdown("<h5>🧠 Sentence-wise Sentiment</h5>", unsafe_allow_html=True)
         for sent, sent_type, score in sentence_scores:
