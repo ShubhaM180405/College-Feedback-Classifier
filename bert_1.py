@@ -113,7 +113,7 @@ def get_suggestions(categories, sentiment):
     suggestions = []
     if sentiment == "Negative":
         if "Facilities" in categories:
-            suggestions.append("⚠️ Upgrade gym, labs, or classroom facilities.")
+            suggestions.append("⚠️ Upgrade the existing University facilities.")
         if "Academics" in categories:
             suggestions.append("📚 Improve curriculum or teaching methods.")
         if "Administration" in categories:
